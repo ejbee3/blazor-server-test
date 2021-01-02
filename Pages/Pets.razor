@@ -1,0 +1,33 @@
+@page "/pets"
+
+@using blazoraqua.Data;
+
+<h3>Pets (@pets.Count(pet => !pet.isDead))</h3>
+
+<ul>
+  @foreach (var pet in pets)
+  {
+    <li>
+      <input @bind="pet.Name" />
+      <p>@pet.Health</p>
+    </li>
+  }
+</ul>
+
+<input placeholder="Name a critter" @bind="newPet" />
+<button @onclick="AddPet">Add critter</button>
+
+@code {
+  private IList<AquaCritter> pets = new List<AquaCritter>();
+  private string newPet;
+
+  private void AddPet()
+  {
+    if (!string.IsNullOrWhiteSpace(newPet))
+    {
+      pets.Add(new AquaCritter { Name = newPet, Health = 100, isDead = false });
+      newPet = string.Empty;
+
+    }
+  }
+}
